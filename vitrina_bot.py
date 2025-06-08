@@ -19,7 +19,13 @@ logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
-gc = gspread.service_account(filename="creds.json")
+import json
+from google.oauth2.service_account import Credentials
+
+creds_dict = json.loads(os.getenv("CREDS_JSON"))
+credentials = Credentials.from_service_account_info(creds_dict)
+gc = gspread.authorize(credentials)
+
 sheet = gc.open(SPREADSHEET_NAME)
 products_ws = sheet.worksheet("Товары")
 orders_ws = sheet.worksheet("Заказы")
