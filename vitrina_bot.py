@@ -23,7 +23,9 @@ import json
 from google.oauth2.service_account import Credentials
 
 creds_dict = json.loads(os.getenv("CREDS_JSON"))
-credentials = Credentials.from_service_account_info(creds_dict)
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+credentials = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
+
 gc = gspread.authorize(credentials)
 
 sheet = gc.open(SPREADSHEET_NAME)
